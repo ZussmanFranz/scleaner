@@ -40,9 +40,3 @@ void MainWindow::on_RenderButton_clicked()
     QString file_name = QFileDialog::getSaveFileName(this, "Render schedule to picture", NULL, "PNG Image (*.png)");
 }
 
-
-void MainWindow::on_pushButton_clicked()
-{
-    qWarning() << "clicked!";
-}
-
