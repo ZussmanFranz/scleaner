@@ -25,6 +25,8 @@ void MainWindow::on_LoadButton_clicked()
     qDebug() << "load file " << file_name;
 
     ScheduleTransformer* st = new ScheduleTransformer(file_name);
+
+    st->print_schedule_data();
 }
 
 
