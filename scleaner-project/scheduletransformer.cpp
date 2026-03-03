@@ -2,6 +2,58 @@
 
 #include <QTextStream>
 #include <QDebug>
+#include <QTime>
+
+
+enum ActivityType {
+    W,  // Wykład = lecture
+    P,  // Projekt = project
+    L,  // Laby = labs
+    S   // Seminarium = seminar
+};
+
+enum Frequency {
+    Weekly,
+    BiWeekly,
+    SpecificDates
+};
+
+// activity structure (each class in a schedule is an activity)
+struct Activity {
+    unsigned int day; // 1 for Monday, 5 for Friday
+
+    QTime start_time;
+    QTime end_time;
+
+    QDate start_date;
+    QDate end_date;
+
+    ActivityType act_type;
+    QString group;
+    QString subgroup;
+
+    Frequency frequency = Frequency::Weekly;
+    QList<QDate> specific_dates; // only if frequency == SpecificDates
+
+    bool occurs_on(const QDate& target_date){
+        if (target_date.dayOfWeek() != day) return false;
+
+        if (frequency == Frequency::SpecificDates){
+            return specific_dates.contains(target_date);
+        }
+
+        if ((start_date != NULL && target_date < start_date) || (end_date != NULL && target_date > end_date)){
+            return false;
+        }
+
+        if (frequency == Frequency::BiWeekly){
+            return (target_date.weekNumber() - start_date.weekNumber()) % 2 == 0;
+        }
+
+        return true;
+    }
+};
+
 
 
 
